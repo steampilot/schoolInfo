@@ -7,26 +7,27 @@ SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 --
 -- Table structure for table `klasse`
 --
-
+START TRANSACTION;
 DROP TABLE IF EXISTS `klasse`;
-
 CREATE TABLE `klasse` (
-  `id`           INT(10) NOT NULL,
+  `id`           INT(10) NOT NULL        AUTO_INCREMENT,
   `lehrer_id`    INT(10)                 DEFAULT NULL,
-  `name`         VARCHAR(45)
-                 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name`         VARCHAR(50)
+                                         DEFAULT NULL,
   `beschreibung` VARCHAR(255)
-                 COLLATE utf8_unicode_ci DEFAULT NULL,
+                                         DEFAULT NULL,
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
+SELECT "Table klasse has been created";
+COMMIT;
 
 --
--- Dumping data for table `klasse`
+-- Insert data for table `klasse`
 --
-
+START TRANSACTION;
 LOCK TABLES `klasse` WRITE;
 ALTER TABLE `klasse` DISABLE KEYS;
 INSERT INTO `klasse` (`id`, `lehrer_id`, `name`, `beschreibung`)
@@ -36,237 +37,278 @@ INSERT INTO `klasse` (`id`, `lehrer_id`, `name`, `beschreibung`)
     `name`          AS `name`,
     `realname`      AS `beschreibung`
   FROM `schoolinfo12802016`.`klasse`;
-
-
 ALTER TABLE `klasse` ENABLE KEYS;
 UNLOCK TABLES;
+SELECT "Data fo klasse has been imported";
+COMMIT;
 
 --
 -- Table structure for table `lehrbetriebe`
 --
-
-DROP TABLE IF EXISTS `lehrbetrieb`;
-CREATE TABLE `lehrbetrieb` (
-  `id`           INTEGER(10) NOT NULL,
-  `name`         VARCHAR(45)
-                 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `strasse`      VARCHAR(45)
-                 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `hausnummer`   VARCHAR(6)
-                 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `postleitzahl` VARCHAR(6)
-                 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ort`          VARCHAR(45)
-                 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `kanton_code`  VARCHAR(2)
-                 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `land_code`    VARCHAR(2)
-                 COLLATE utf8_unicode_ci DEFAULT NULL,
+START TRANSACTION;
+DROP TABLE IF EXISTS `lehrbetriebe`;
+CREATE TABLE `lehrbetriebe` (
+  `id`          INT(10) NOT NULL        AUTO_INCREMENT,
+  `name`        VARCHAR(45)             DEFAULT NULL,
+  `strasse`     VARCHAR(45)             DEFAULT NULL,
+  `haus_nr`     VARCHAR(6)              DEFAULT NULL,
+  `plz`         VARCHAR(6)              DEFAULT NULL,
+  `ort`         VARCHAR(45)             DEFAULT NULL,
+  `kanton_code` VARCHAR(2)              DEFAULT NULL,
+  `land_code`   VARCHAR(2)              DEFAULT NULL,
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
+SELECT "Table lehrbetriebe has been created";
+COMMIT;
 --
--- Dumping data for table `lehrbetriebe`
+-- Insert data for table `lehrbetriebe`
 --
-
-LOCK TABLES `lehrbetrieb` WRITE;
-ALTER TABLE `lehrbetrieb` DISABLE KEYS;
-INSERT INTO `lehrbetrieb` (
-  `id`, `name`, `strasse`, `hausnummer`, `postleitzahl`, `ort`, `kanton_code`, `land_code`
+START TRANSACTION;
+LOCK TABLES `lehrbetriebe` WRITE;
+ALTER TABLE `lehrbetriebe` DISABLE KEYS;
+INSERT INTO `lehrbetriebe` (
+  `id`, `name`, `strasse`, `haus_nr`, `plz`, `ort`, `kanton_code`, `land_code`
 )
   SELECT
     `id_Lehrbetrieb` AS `id`,
     `FName`          AS `name`,
     `FStrasse`       AS `strasse`,
-    `FHausNr`        AS `hausnummer`,
-    `FPlz`           AS `postleitzahl`,
+    `FHausNr`        AS `haus_nr`,
+    `FPlz`           AS `plz`,
     `FOrt`           AS `ort`,
     `FKanton`        AS `kanton_code`,
     `FLand`          AS `land_code`
 
   FROM `schoolinfo12802016`.`lehrbetriebe`;
 
-ALTER TABLE `lehrbetrieb` ENABLE KEYS;
+ALTER TABLE `lehrbetriebe` ENABLE KEYS;
 UNLOCK TABLES;
+SELECT "Data for lehrbetriebe has been imported";
+COMMIT;
 
 --
 -- Table structure for table `lernende`
 --
-
+START TRANSACTION;
 DROP TABLE IF EXISTS `lernende`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lernende` (
-  `Lern_id`     INT(10)    NOT NULL,
-  `anrede`      VARCHAR(50)
-                COLLATE utf8_unicode_ci DEFAULT NULL,
-  `name`        VARCHAR(51)
-                COLLATE utf8_unicode_ci DEFAULT NULL,
-  `vorname`     VARCHAR(50)
-                COLLATE utf8_unicode_ci DEFAULT NULL,
-  `geschlecht`  VARCHAR(50)
-                COLLATE utf8_unicode_ci DEFAULT NULL,
-  `klasse`      INT(10)                 DEFAULT NULL,
-  `bm`          TINYINT(1) NOT NULL,
-  `richtung`    INT(10)                 DEFAULT NULL,
-  `lehrbetrieb` INT(10)                 DEFAULT NULL,
-  `strasse`     VARCHAR(50)
-                COLLATE utf8_unicode_ci DEFAULT NULL,
-  `plz`         VARCHAR(50)
-                COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ort`         VARCHAR(50)
-                COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`Lern_id`),
-  KEY `Lern_id` (`Lern_id`),
-  KEY `vorname` (`vorname`),
-  KEY `name` (`name`) USING BTREE
+  `id`              INT(10)    NOT NULL        AUTO_INCREMENT,
+  `anrede`          VARCHAR(25)                DEFAULT NULL,
+  `name`            VARCHAR(50)                DEFAULT NULL,
+  `vorname`         VARCHAR(50)                DEFAULT NULL,
+  `geschlecht`      VARCHAR(50)                DEFAULT NULL,
+  `klasse_id`       INT(10)                    DEFAULT NULL,
+  `ist_bm`          TINYINT(1) NOT NULL,
+  `fachrichtung_id` INT(10)                    DEFAULT NULL,
+  `lehrbetrieb_id`  INT(10)                    DEFAULT NULL,
+  `strasse`         VARCHAR(50)                DEFAULT NULL,
+  `plz`             VARCHAR(50)                DEFAULT NULL,
+  `ort`             VARCHAR(50)                DEFAULT NULL,
+  PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SELECT "Table lernende has been created";
+COMMIT;
 
 --
 -- Dumping data for table `lernende`
 --
-
+START TRANSACTION;
 LOCK TABLES `lernende` WRITE;
-/*!40000 ALTER TABLE `lernende` DISABLE KEYS */;
-INSERT INTO `lernende`;
-/*!40000 ALTER TABLE `lernende` ENABLE KEYS */;
+ALTER TABLE `lernende` DISABLE KEYS;
+INSERT INTO `lernende` (
+  `id`, `anrede`, `name`, `vorname`,
+  `geschlecht`, `klasse_id`, `ist_bm`,
+  `fachrichtung_id`, `lehrbetrieb_id`,
+  `strasse`, `plz`, `ort`
+)
+  SELECT
+    `Lern_id`     AS `id`,
+    `anrede`      AS `anrede`,
+    `name`        AS `name`,
+    `vorname`     AS `vorname`,
+    `geschlecht`  AS `geschlecht`,
+    `klasse`      AS `klasse_id`,
+    `bm`          AS `ist_bm`,
+    `richtung`    AS `fachrichtung_id`,
+    `lehrbetrieb` AS `lehrbetrieb_id`,
+    `strasse`     AS `strasse`,
+    `plz`         AS `plz`,
+    `ort`         AS `ort`
+  FROM `schoolinfo12802016`.`lernende`;
+
+ALTER TABLE `lernende` ENABLE KEYS;
 UNLOCK TABLES;
+SELECT "Data for lernende has been imported";
+COMMIT;
 
 --
--- Table structure for table `log_berechtigung`
+-- Table structure for table `berechtigung_log`
 --
-
-DROP TABLE IF EXISTS `log_berechtigung`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `log_berechtigung` (
-  `id`           INT(11)                   NOT NULL AUTO_INCREMENT,
-  `benutzer`     VARCHAR(150)              NOT NULL,
-  `timestamp`    DATETIME                  NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `wofuer`       VARCHAR(80)               NOT NULL,
-  `typ`          ENUM('db', 'tab', 'attr') NOT NULL,
-  `berechtigung` VARCHAR(100)              NOT NULL,
-  `fuer`         VARCHAR(80)               NOT NULL,
+START TRANSACTION;
+DROP TABLE IF EXISTS `berechtigung_log`;
+CREATE TABLE `berechtigung_log` (
+  `id`           INT(10)                    NOT NULL AUTO_INCREMENT,
+  `benutzer`     VARCHAR(50)                NOT NULL,
+  `zeitpunkt`    DATETIME                   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `grund`        VARCHAR(50)                NOT NULL,
+  `typ`          ENUM ('db', 'tab', 'attr') NOT NULL,
+  `berechtigung` VARCHAR(50)                NOT NULL,
+  `beschreibung` VARCHAR(255)               NOT NULL,
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SELECT "Table berechtigung_log has been created";
+COMMIT;
 
 --
--- Dumping data for table `log_berechtigung`
+-- Insert data for table `berechtigung_log`
 --
-
-LOCK TABLES `log_berechtigung` WRITE;
-/*!40000 ALTER TABLE `log_berechtigung` DISABLE KEYS */;
-/*!40000 ALTER TABLE `log_berechtigung` ENABLE KEYS */;
+START TRANSACTION;
+LOCK TABLES `berechtigung_log` WRITE;
+ALTER TABLE `berechtigung_log` DISABLE KEYS;
+INSERT INTO `berechtigung_log` (
+  `id`, `benutzer`, `zeitpunkt`, `grund`, `typ`, `berechtigung`, `grund2`)
+  SELECT
+    `id`           AS `id`,
+    `benutzer`     AS `benutzer`,
+    `timestamp`    AS `zeitpunkt`,
+    `wofuer`       AS `grund`,
+    `typ`          AS `typ`,
+    `berechtigung` AS `berechtigung`,
+    `fuer`         AS `grund2`
+  FROM `schoolinfo12802016`.`log_berechtigung`;
+ALTER TABLE `berechtigung_log` ENABLE KEYS;
 UNLOCK TABLES;
+SELECT "Data for berechtigung_log has been imported";
+COMMIT;
 
 --
 -- Table structure for table `modul`
 --
-
-DROP TABLE IF EXISTS `modul`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `modul` (
-  `idmodul`   INT(10) NOT NULL,
-  `m_name`    VARCHAR(30)
-              COLLATE utf8_unicode_ci DEFAULT NULL,
-  `modulname` VARCHAR(100)
-              COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`idmodul`),
-  KEY `index2` (`m_name`)
+START TRANSACTION;
+DROP TABLE IF EXISTS `ict-module`;
+CREATE TABLE `ict-module` (
+  `id`           INT(10) NOT NULL        AUTO_INCREMENT,
+  `name`         VARCHAR(50)             DEFAULT NULL,
+  `beschreibung` VARCHAR(255)            DEFAULT NULL,
+  PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SELECT "Table ict-module has been created";
+COMMIT;
 
 --
--- Dumping data for table `modul`
+-- Insert data for table `modul`
 --
+START TRANSACTION;
+LOCK TABLES `ict-module` WRITE;
+ALTER TABLE `ict-module` DISABLE KEYS;
+INSERT INTO `ict-module` (
+  `id`, `name`, `beschreibung`
+)
+  SELECT
+    `id`        AS `id`,
+    `m_name`    AS `name`,
+    `modulname` AS `beschreibung`
+  FROM `schoolinfo12802016`.`modul`;
 
-LOCK TABLES `modul` WRITE;
-/*!40000 ALTER TABLE `modul` DISABLE KEYS */;
-INSERT INTO `modul`;
-/*!40000 ALTER TABLE `modul` ENABLE KEYS */;
+
+ALTER TABLE `ict-module` ENABLE KEYS;
 UNLOCK TABLES;
+SELECT "Data for ict-module has been imported";
+COMMIT;
 
 --
 -- Table structure for table `noten`
 --
-
+START TRANSACTION;
 DROP TABLE IF EXISTS `noten`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `noten` (
-  `lernende_idlernende` INT(10)       DEFAULT NULL,
-  `module_idmodule`     INT(10)       DEFAULT NULL,
-  `erfahrungsnote`      DOUBLE(15, 5) DEFAULT NULL,
-  `knw_note`            DOUBLE(15, 5) DEFAULT NULL,
-  `dat_erfa`            DATETIME      DEFAULT NULL,
-  `dat_knw`             DATETIME      DEFAULT NULL,
-  KEY `lernende_idlernende` (`lernende_idlernende`, `knw_note`, `erfahrungsnote`, `module_idmodule`) USING BTREE
+  `id`                   INT(10) NOT NULL AUTO_INCREMENT,
+  `lernende_id`          INT(10)          DEFAULT NULL,
+  `ict-modul_id`         INT(10)          DEFAULT NULL,
+  `erfahrungsnote`       DOUBLE(15, 2)    DEFAULT NULL,
+  `knw_note`             DOUBLE(15, 2)    DEFAULT NULL,
+  `erfahrungsnote_datum` DATETIME         DEFAULT NULL,
+  `knw_datum`            DATETIME         DEFAULT NULL,
+  PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SELECT "Table klasse has been created";
+COMMIT;
 
 --
--- Dumping data for table `noten`
+-- Insert data for table `noten`
 --
-
+START TRANSACTION;
 LOCK TABLES `noten` WRITE;
-/*!40000 ALTER TABLE `noten` DISABLE KEYS */;
-INSERT INTO `noten`;
-INSERT INTO `noten`;
-/*!40000 ALTER TABLE `noten` ENABLE KEYS */;
+ALTER TABLE `noten` DISABLE KEYS;
+
+INSERT INTO `noten` (
+  `lernende_id`,
+  `ict-modul_id`,
+  `erfahrungsnote`,
+  `erfahrungsnote_datum`,
+  `knw_note`,
+  `knw_datum`
+)
+  SELECT
+    `lernende_idlernende` AS `lernende_id`,
+    `module_idmodule`     AS `ict-modul_id`,
+    `erfahrungsnote`      AS `erfahrungsnote`,
+    `dat_erfa`            AS `erfahrungsnote_datum`,
+    `knw_note`            AS `knw_note`,
+    `dat_knw`             AS `knw_datum`
+  FROM `schoolinfo12802016`.`noten`;
+
+ALTER TABLE `noten` ENABLE KEYS;
 UNLOCK TABLES;
+SELECT "Data noten has been imported";
+COMMIT;
 
 --
 -- Table structure for table `richtung`
 --
-
-DROP TABLE IF EXISTS `richtung`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `richtung` (
-  `idrichtung` INT(10)                 DEFAULT NULL,
-  `richtung`   VARCHAR(30)
-               COLLATE utf8_unicode_ci DEFAULT NULL,
-  KEY `richtungrichtung` (`richtung`)
+START TRANSACTION;
+DROP TABLE IF EXISTS fachrichtung;
+CREATE TABLE fachrichtung (
+  `id`   INT(10) NOT NULL        AUTO_INCREMENT,
+  `name` VARCHAR(50)             DEFAULT NULL,
+  PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SELECT "Table fachrichtung has been created";
+COMMIT;
 
 --
--- Dumping data for table `richtung`
+-- Insert data for table `richtung`
 --
+START TRANSACTION;
+LOCK TABLES fachrichtung WRITE;
+ALTER TABLE fachrichtung DISABLE KEYS;
 
-LOCK TABLES `richtung` WRITE;
-/*!40000 ALTER TABLE `richtung` DISABLE KEYS */;
-INSERT INTO `richtung` VALUES (1, 'Applikationsentwicklung'), (2, 'Systemtechnik'), (3, 'Generalistische Ausrichtung'),
-  (4, 'Betriebsinformatik');
-/*!40000 ALTER TABLE `richtung` ENABLE KEYS */;
+INSERT INTO `noten` (
+  `id`, `name`
+)
+  SELECT
+    `id`       AS `idrichtung`,
+    `richtung` AS `name`
+  FROM `schoolinfo12802016`.`richtung`;
+
+ALTER TABLE fachrichtung ENABLE KEYS;
 UNLOCK TABLES;
-/*!40103 SET TIME_ZONE = @OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE = @OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS = @OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION = @OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
-
--- Dump completed on 2016-05-10 14:56:13
+SELECT "Data fachrichtung has been imported";
+COMMIT;
