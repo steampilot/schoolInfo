@@ -34,7 +34,7 @@ INSERT INTO `ort` (`plz`, `ort`)
                      )
                 )
            ) as ort
-         FROM lernende GROUP BY `plz`, `ort`
+         FROM `lernende` GROUP BY `plz`, `ort`
          UNION
          SELECT
            TRIM(TRAILING "\r" FROM `plz`
@@ -48,7 +48,7 @@ INSERT INTO `ort` (`plz`, `ort`)
                      )
                 )
            ) as ort
-         FROM lehrbetriebe GROUP BY `plz`, `ort`) as tmp;
+         FROM `lehrbetriebe` GROUP BY `plz`, `ort`) as tmp;
 
 ALTER TABLE `ort` ENABLE KEYS;
 UNLOCK TABLES;
@@ -56,7 +56,7 @@ SELECT "Data for ort has been imported";
 COMMIT;
 
 START TRANSACTION;
-  LOCK TABLES `lernende`, WRITE;
+  LOCK TABLES `lernende` WRITE;
   ALTER TABLE `lernende`
     ADD COLUMN `ort_id` INT(10) NULL DEFAULT NULL AFTER `strasse`;
   SELECT "ort collumn has been created for lernende table";
