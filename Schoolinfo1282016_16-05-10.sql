@@ -159,7 +159,7 @@ CREATE TABLE `berechtigung_log` (
   `grund`        VARCHAR(50)                NOT NULL,
   `typ`          ENUM ('db', 'tab', 'attr') NOT NULL,
   `berechtigung` VARCHAR(50)                NOT NULL,
-  `beschreibung` VARCHAR(255)               NOT NULL,
+  `tabelle` VARCHAR(255)                    NOT NULL,
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -174,7 +174,7 @@ START TRANSACTION;
 LOCK TABLES `berechtigung_log` WRITE;
 ALTER TABLE `berechtigung_log` DISABLE KEYS;
 INSERT INTO `berechtigung_log` (
-  `id`, `benutzer`, `zeitpunkt`, `grund`, `typ`, `berechtigung`, `grund2`)
+  `id`, `benutzer`, `zeitpunkt`, `grund`, `typ`, `berechtigung`, `tabelle`)
   SELECT
     `id`           AS `id`,
     `benutzer`     AS `benutzer`,
@@ -182,7 +182,7 @@ INSERT INTO `berechtigung_log` (
     `wofuer`       AS `grund`,
     `typ`          AS `typ`,
     `berechtigung` AS `berechtigung`,
-    `fuer`         AS `grund2`
+    `fuer`         AS `tabelle`
   FROM `schoolinfo12802016`.`log_berechtigung`;
 ALTER TABLE `berechtigung_log` ENABLE KEYS;
 UNLOCK TABLES;
