@@ -8,8 +8,8 @@ SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `klasse`
 --
 START TRANSACTION;
-DROP TABLE IF EXISTS `klasse`;
-CREATE TABLE `klasse` (
+DROP TABLE IF EXISTS `klassen`;
+CREATE TABLE `klassen` (
   `id`           INT(10) NOT NULL        AUTO_INCREMENT,
   `lehrer_id`    INT(10)                 DEFAULT NULL,
   `name`         VARCHAR(50)
@@ -21,27 +21,27 @@ CREATE TABLE `klasse` (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
-SELECT "Table klasse has been created";
+SELECT "Table klassen has been created";
 COMMIT;
 
 --
--- Insert data for table `klasse`
+-- Insert data for table `klassen`
 --
 START TRANSACTION;
-LOCK TABLES `klasse` WRITE;
-ALTER TABLE `klasse`
+LOCK TABLES `klassen` WRITE;
+ALTER TABLE `klassen`
   DISABLE KEYS;
-INSERT INTO `klasse` (`id`, `lehrer_id`, `name`, `beschreibung`)
+INSERT INTO `klassen` (`id`, `lehrer_id`, `name`, `beschreibung`)
   SELECT
     `idklasse`      AS `id`,
     `klassenlehrer` AS `lehrer_id`,
     `name`          AS `name`,
     `realname`      AS `beschreibung`
   FROM `schoolinfo12802016`.`klasse`;
-ALTER TABLE `klasse`
+ALTER TABLE `klassen`
   ENABLE KEYS;
 UNLOCK TABLES;
-SELECT "Data fo klasse has been imported";
+SELECT "Data for klassen has been imported";
 COMMIT;
 
 --
@@ -157,8 +157,8 @@ COMMIT;
 -- Table structure for table `berechtigung_log`
 --
 START TRANSACTION;
-DROP TABLE IF EXISTS `berechtigung_log`;
-CREATE TABLE `berechtigung_log` (
+DROP TABLE IF EXISTS `berechtigungen_log`;
+CREATE TABLE `berechtigungen_log` (
   `id`           INT(10)                    NOT NULL AUTO_INCREMENT,
   `benutzer`     VARCHAR(50)                NOT NULL,
   `zeitpunkt`    DATETIME                   NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -170,17 +170,17 @@ CREATE TABLE `berechtigung_log` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = latin1;
-SELECT "Table berechtigung_log has been created";
+SELECT "Table berechtigungen_log has been created";
 COMMIT;
 
 --
 -- Insert data for table `berechtigung_log`
 --
 START TRANSACTION;
-LOCK TABLES `berechtigung_log` WRITE;
-ALTER TABLE `berechtigung_log`
+LOCK TABLES `berechtigungen_log` WRITE;
+ALTER TABLE `berechtigungen_log`
   DISABLE KEYS;
-INSERT INTO `berechtigung_log` (
+INSERT INTO `berechtigungen_log` (
   `id`, `benutzer`, `zeitpunkt`, `grund`, `typ`, `berechtigung`, `tabelle`)
   SELECT
     `id`           AS `id`,
@@ -191,18 +191,18 @@ INSERT INTO `berechtigung_log` (
     `berechtigung` AS `berechtigung`,
     `fuer`         AS `tabelle`
   FROM `schoolinfo12802016`.`log_berechtigung`;
-ALTER TABLE `berechtigung_log`
+ALTER TABLE `berechtigungen_log`
   ENABLE KEYS;
 UNLOCK TABLES;
-SELECT "Data for berechtigung_log has been imported";
+SELECT "Data for berechtigungen_log has been imported";
 COMMIT;
 
 --
 -- Table structure for table `modul`
 --
 START TRANSACTION;
-DROP TABLE IF EXISTS `ict-module`;
-CREATE TABLE `ict-module` (
+DROP TABLE IF EXISTS `ict_module`;
+CREATE TABLE `ict_module` (
   `id`           INT(10) NOT NULL        AUTO_INCREMENT,
   `name`         VARCHAR(50)             DEFAULT NULL,
   `beschreibung` VARCHAR(255)            DEFAULT NULL,
@@ -211,15 +211,15 @@ CREATE TABLE `ict-module` (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
-SELECT "Table ict-module has been created";
+SELECT "Table ict_module has been created";
 COMMIT;
 
 --
--- Insert data for table `modul`
+-- Insert data for table ict-module
 --
 START TRANSACTION;
-LOCK TABLES `ict-module` WRITE;
-ALTER TABLE `ict-module`
+LOCK TABLES `ict_module` WRITE;
+ALTER TABLE `ict_module`
   DISABLE KEYS;
 INSERT INTO `ict-module` (
   `id`, `name`, `beschreibung`
@@ -231,10 +231,10 @@ INSERT INTO `ict-module` (
   FROM `schoolinfo12802016`.`modul`;
 
 
-ALTER TABLE `ict-module`
+ALTER TABLE `ict_module`
   ENABLE KEYS;
 UNLOCK TABLES;
-SELECT "Data for ict-module has been imported";
+SELECT "Data for ict_module has been imported";
 COMMIT;
 
 --
@@ -255,7 +255,7 @@ CREATE TABLE `noten` (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
-SELECT "Table klasse has been created";
+SELECT "Table noten has been created";
 COMMIT;
 
 --
@@ -293,8 +293,8 @@ COMMIT;
 -- Table structure for table `richtung`
 --
 START TRANSACTION;
-DROP TABLE IF EXISTS `fachrichtung`;
-CREATE TABLE `fachrichtung` (
+DROP TABLE IF EXISTS `fachrichtungen`;
+CREATE TABLE `fachrichtungen` (
   `id`   INT(10) NOT NULL        AUTO_INCREMENT,
   `name` VARCHAR(50)             DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -302,18 +302,18 @@ CREATE TABLE `fachrichtung` (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
-SELECT "Table fachrichtung has been created";
+SELECT "Table fachrichtungen has been created";
 COMMIT;
 
 --
 -- Insert data for table `richtung`
 --
 START TRANSACTION;
-LOCK TABLES `fachrichtung` WRITE;
-ALTER TABLE `fachrichtung`
+LOCK TABLES `fachrichtungen` WRITE;
+ALTER TABLE `fachrichtungen`
   DISABLE KEYS;
 
-INSERT INTO `fachrichtung` (
+INSERT INTO `fachrichtungen` (
   `id`, `name`
 )
   SELECT
@@ -321,8 +321,8 @@ INSERT INTO `fachrichtung` (
     `richtung` AS `name`
   FROM `schoolinfo12802016`.`richtung`;
 
-ALTER TABLE fachrichtung
+ALTER TABLE fachrichtungen
   ENABLE KEYS;
 UNLOCK TABLES;
-SELECT "Data fachrichtung has been imported";
+SELECT "Data fachrichtungen has been imported";
 COMMIT;
