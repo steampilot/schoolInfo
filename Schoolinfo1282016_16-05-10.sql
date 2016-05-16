@@ -29,7 +29,8 @@ COMMIT;
 --
 START TRANSACTION;
 LOCK TABLES `klasse` WRITE;
-ALTER TABLE `klasse` DISABLE KEYS;
+ALTER TABLE `klasse`
+  DISABLE KEYS;
 INSERT INTO `klasse` (`id`, `lehrer_id`, `name`, `beschreibung`)
   SELECT
     `idklasse`      AS `id`,
@@ -37,7 +38,8 @@ INSERT INTO `klasse` (`id`, `lehrer_id`, `name`, `beschreibung`)
     `name`          AS `name`,
     `realname`      AS `beschreibung`
   FROM `schoolinfo12802016`.`klasse`;
-ALTER TABLE `klasse` ENABLE KEYS;
+ALTER TABLE `klasse`
+  ENABLE KEYS;
 UNLOCK TABLES;
 SELECT "Data fo klasse has been imported";
 COMMIT;
@@ -68,7 +70,8 @@ COMMIT;
 --
 START TRANSACTION;
 LOCK TABLES `lehrbetriebe` WRITE;
-ALTER TABLE `lehrbetriebe` DISABLE KEYS;
+ALTER TABLE `lehrbetriebe`
+  DISABLE KEYS;
 INSERT INTO `lehrbetriebe` (
   `id`, `name`, `strasse`, `haus_nr`, `plz`, `ort`, `kanton_code`, `land_code`
 )
@@ -84,7 +87,8 @@ INSERT INTO `lehrbetriebe` (
 
   FROM `schoolinfo12802016`.`lehrbetriebe`;
 
-ALTER TABLE `lehrbetriebe` ENABLE KEYS;
+ALTER TABLE `lehrbetriebe`
+  ENABLE KEYS;
 UNLOCK TABLES;
 SELECT "Data for lehrbetriebe has been imported";
 COMMIT;
@@ -120,7 +124,8 @@ COMMIT;
 --
 START TRANSACTION;
 LOCK TABLES `lernende` WRITE;
-ALTER TABLE `lernende` DISABLE KEYS;
+ALTER TABLE `lernende`
+  DISABLE KEYS;
 INSERT INTO `lernende` (
   `id`, `anrede`, `name`, `vorname`,
   `geschlecht`, `klasse_id`, `ist_bm`,
@@ -142,7 +147,8 @@ INSERT INTO `lernende` (
     `ort`         AS `ort`
   FROM `schoolinfo12802016`.`lernende`;
 
-ALTER TABLE `lernende` ENABLE KEYS;
+ALTER TABLE `lernende`
+  ENABLE KEYS;
 UNLOCK TABLES;
 SELECT "Data for lernende has been imported";
 COMMIT;
@@ -159,7 +165,7 @@ CREATE TABLE `berechtigung_log` (
   `grund`        VARCHAR(50)                NOT NULL,
   `typ`          ENUM ('db', 'tab', 'attr') NOT NULL,
   `berechtigung` VARCHAR(50)                NOT NULL,
-  `tabelle` VARCHAR(255)                    NOT NULL,
+  `tabelle`      VARCHAR(255)               NOT NULL,
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -172,7 +178,8 @@ COMMIT;
 --
 START TRANSACTION;
 LOCK TABLES `berechtigung_log` WRITE;
-ALTER TABLE `berechtigung_log` DISABLE KEYS;
+ALTER TABLE `berechtigung_log`
+  DISABLE KEYS;
 INSERT INTO `berechtigung_log` (
   `id`, `benutzer`, `zeitpunkt`, `grund`, `typ`, `berechtigung`, `tabelle`)
   SELECT
@@ -184,7 +191,8 @@ INSERT INTO `berechtigung_log` (
     `berechtigung` AS `berechtigung`,
     `fuer`         AS `tabelle`
   FROM `schoolinfo12802016`.`log_berechtigung`;
-ALTER TABLE `berechtigung_log` ENABLE KEYS;
+ALTER TABLE `berechtigung_log`
+  ENABLE KEYS;
 UNLOCK TABLES;
 SELECT "Data for berechtigung_log has been imported";
 COMMIT;
@@ -211,7 +219,8 @@ COMMIT;
 --
 START TRANSACTION;
 LOCK TABLES `ict-module` WRITE;
-ALTER TABLE `ict-module` DISABLE KEYS;
+ALTER TABLE `ict-module`
+  DISABLE KEYS;
 INSERT INTO `ict-module` (
   `id`, `name`, `beschreibung`
 )
@@ -222,7 +231,8 @@ INSERT INTO `ict-module` (
   FROM `schoolinfo12802016`.`modul`;
 
 
-ALTER TABLE `ict-module` ENABLE KEYS;
+ALTER TABLE `ict-module`
+  ENABLE KEYS;
 UNLOCK TABLES;
 SELECT "Data for ict-module has been imported";
 COMMIT;
@@ -233,13 +243,13 @@ COMMIT;
 START TRANSACTION;
 DROP TABLE IF EXISTS `noten`;
 CREATE TABLE `noten` (
-  `id`                   INT(10) NOT NULL AUTO_INCREMENT,
-  `lernende_id`          INT(10)          DEFAULT NULL,
-  `ict-modul_id`         INT(10)          DEFAULT NULL,
-  `erfahrungsnote`       DOUBLE(15, 2)    DEFAULT NULL,
-  `knw_note`             DOUBLE(15, 2)    DEFAULT NULL,
-  `erfahrungsnote_datum` DATETIME         DEFAULT NULL,
-  `knw_datum`            DATETIME         DEFAULT NULL,
+  `id`           INT(10) NOT NULL AUTO_INCREMENT,
+  `lernende_id`  INT(10)          DEFAULT NULL,
+  `ict-modul_id` INT(10)          DEFAULT NULL,
+  `erf_note`     DOUBLE(15, 2)    DEFAULT NULL,
+  `erf_datum`    DATETIME         DEFAULT NULL,
+  `knw_note`     DOUBLE(15, 2)    DEFAULT NULL,
+  `knw_datum`    DATETIME         DEFAULT NULL,
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
@@ -253,26 +263,28 @@ COMMIT;
 --
 START TRANSACTION;
 LOCK TABLES `noten` WRITE;
-ALTER TABLE `noten` DISABLE KEYS;
+ALTER TABLE `noten`
+  DISABLE KEYS;
 
 INSERT INTO `noten` (
   `lernende_id`,
   `ict-modul_id`,
-  `erfahrungsnote`,
-  `erfahrungsnote_datum`,
+  `erf_note`,
+  `erf_datum`,
   `knw_note`,
   `knw_datum`
 )
   SELECT
     `lernende_idlernende` AS `lernende_id`,
     `module_idmodule`     AS `ict-modul_id`,
-    `erfahrungsnote`      AS `erfahrungsnote`,
-    `dat_erfa`            AS `erfahrungsnote_datum`,
+    `erf_note`            AS `erfahrungsnote`,
+    `erf_datum`           AS `erfahrungsnote_datum`,
     `knw_note`            AS `knw_note`,
-    `dat_knw`             AS `knw_datum`
+    `knw_datum`           AS `knw_datum`
   FROM `schoolinfo12802016`.`noten`;
 
-ALTER TABLE `noten` ENABLE KEYS;
+ALTER TABLE `noten`
+  ENABLE KEYS;
 UNLOCK TABLES;
 SELECT "Data noten has been imported";
 COMMIT;
@@ -281,8 +293,8 @@ COMMIT;
 -- Table structure for table `richtung`
 --
 START TRANSACTION;
-DROP TABLE IF EXISTS fachrichtung;
-CREATE TABLE fachrichtung (
+DROP TABLE IF EXISTS `fachrichtung`;
+CREATE TABLE `fachrichtung` (
   `id`   INT(10) NOT NULL        AUTO_INCREMENT,
   `name` VARCHAR(50)             DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -297,10 +309,11 @@ COMMIT;
 -- Insert data for table `richtung`
 --
 START TRANSACTION;
-LOCK TABLES fachrichtung WRITE;
-ALTER TABLE fachrichtung DISABLE KEYS;
+LOCK TABLES `fachrichtung` WRITE;
+ALTER TABLE `fachrichtung`
+  DISABLE KEYS;
 
-INSERT INTO `noten` (
+INSERT INTO `fachrichtung` (
   `id`, `name`
 )
   SELECT
@@ -308,7 +321,8 @@ INSERT INTO `noten` (
     `richtung` AS `name`
   FROM `schoolinfo12802016`.`richtung`;
 
-ALTER TABLE fachrichtung ENABLE KEYS;
+ALTER TABLE fachrichtung
+  ENABLE KEYS;
 UNLOCK TABLES;
 SELECT "Data fachrichtung has been imported";
 COMMIT;
