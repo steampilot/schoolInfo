@@ -5,7 +5,7 @@ USE `schoolinfo_neu`;
 SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Table structure for table `klasse`
+-- Table structure for table `klassen`
 --
 START TRANSACTION;
 DROP TABLE IF EXISTS `klassen`;
@@ -16,7 +16,8 @@ CREATE TABLE `klassen` (
                                          DEFAULT NULL,
   `beschreibung` VARCHAR(255)
                                          DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+#   FOREIGN KEY (klassen_lehrer_id) REFERENCES lehrer(id)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -51,11 +52,11 @@ START TRANSACTION;
 DROP TABLE IF EXISTS `lehrbetriebe`;
 CREATE TABLE `lehrbetriebe` (
   `id`          INT(10) NOT NULL        AUTO_INCREMENT,
-  `name`        VARCHAR(45)             DEFAULT NULL,
-  `strasse`     VARCHAR(45)             DEFAULT NULL,
-  `haus_nr`     VARCHAR(6)              DEFAULT NULL,
-  `plz`         VARCHAR(6)              DEFAULT NULL,
-  `ort`         VARCHAR(45)             DEFAULT NULL,
+  `name`        VARCHAR(50)             NOT NULL,
+  `strasse`     VARCHAR(50)             NOT NULL,
+  `haus_nr`     VARCHAR(8)              DEFAULT NULL,
+  `plz`         VARCHAR(8)              NOT NULL,
+  `ort`         VARCHAR(50)             NOT NULL,
   `kanton_code` VARCHAR(2)              DEFAULT NULL,
   `land_code`   VARCHAR(2)              DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -111,7 +112,10 @@ CREATE TABLE `lernende` (
   `strasse`         VARCHAR(50)                DEFAULT NULL,
   `plz`             VARCHAR(50)                DEFAULT NULL,
   `ort`             VARCHAR(50)                DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (lernende_klasse_id) REFERENCES klassen(id),
+  FOREIGN KEY (lernende_fachrichtung_id) REFERENCES fachrichtungen(id),
+  FOREIGN KEY (lernende_lehrbetrieb_id) REFERENCES lehrbetriebe(id)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -163,7 +167,6 @@ CREATE TABLE `berechtigungen_log` (
   `benutzer`     VARCHAR(50)                NOT NULL,
   `zeitpunkt`    DATETIME                   NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `grund`        VARCHAR(50)                NOT NULL,
-  `typ`          ENUM ('db', 'tab', 'attr') NOT NULL,
   `berechtigung` VARCHAR(50)                NOT NULL,
   `tabelle`      VARCHAR(255)               NOT NULL,
   PRIMARY KEY (`id`)
@@ -181,13 +184,12 @@ LOCK TABLES `berechtigungen_log` WRITE;
 ALTER TABLE `berechtigungen_log`
   DISABLE KEYS;
 INSERT INTO `berechtigungen_log` (
-  `id`, `benutzer`, `zeitpunkt`, `grund`, `typ`, `berechtigung`, `tabelle`)
+  `id`, `benutzer`, `zeitpunkt`, `grund`, `berechtigung`, `tabelle`)
   SELECT
     `id`           AS `id`,
     `benutzer`     AS `benutzer`,
     `timestamp`    AS `zeitpunkt`,
     `wofuer`       AS `grund`,
-    `typ`          AS `typ`,
     `berechtigung` AS `berechtigung`,
     `fuer`         AS `tabelle`
   FROM `schoolinfo12802016`.`log_berechtigung`;

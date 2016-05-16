@@ -20,8 +20,8 @@ CREATE PROCEDURE createUser(
     SELECT CONCAT(' User ', this_user, ' at ', this_host, ' has been created.');
 
     INSERT INTO `schoolinfo_neu`.`berechtigung_log`
-    (`benutzer`, `grund`, `typ`, `berechtigung`,`tabelle`)
-    VALUES (CONCAT(this_user, "@", this_host), "CREATE", "db", "NONE", "NONE");
+    (`benutzer`, `grund`, `berechtigung`,`tabelle`)
+    VALUES (CONCAT(this_user, "@", this_host), "CREATE", "NONE", "NONE");
     COMMIT;
 
     START TRANSACTION;
@@ -36,8 +36,8 @@ CREATE PROCEDURE createUser(
                   ' has been granted ',this_permission,
                   ' permisson on table ',this_table,'.');
     INSERT INTO `schoolinfo_neu`.`berechtigung_log`
-    (`benutzer`, `grund`, `typ`, `berechtigung`, `tabelle`)
-    VALUES (CONCAT(this_user, "@", this_host), "Granted permission", "tab", this_permission, this_table);
+    (`benutzer`, `grund`, `berechtigung`, `tabelle`)
+    VALUES (CONCAT(this_user, "@", this_host), "Granted permission", this_permission, this_table);
     COMMIT;
 
   END //
