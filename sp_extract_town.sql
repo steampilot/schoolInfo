@@ -1,6 +1,6 @@
 START TRANSACTION;
-DROP TABLE IF EXISTS `ort`;
-CREATE TABLE `ort` (
+DROP TABLE IF EXISTS `orte`;
+CREATE TABLE `orte` (
   `id`   INT(10)            NOT NULL        AUTO_INCREMENT,
   `plz`  VARCHAR(6)         NOT NULL,
   `ort` VARCHAR(50)         NOT NULL,
@@ -15,9 +15,9 @@ SELECT "Table ort has been created";
 COMMIT;
 
 START TRANSACTION;
-LOCK TABLES `ort` WRITE;
-ALTER TABLE `ort` DISABLE KEYS;
-INSERT INTO `ort` (`plz`, `ort`)
+LOCK TABLES `orte` WRITE;
+ALTER TABLE `orte` DISABLE KEYS;
+INSERT INTO `orte` (`plz`, `ort`)
 
   SELECT DISTINCT
     plz, ort
@@ -50,9 +50,9 @@ INSERT INTO `ort` (`plz`, `ort`)
            ) as ort
          FROM `lehrbetriebe` GROUP BY `plz`, `ort`) as tmp;
 
-ALTER TABLE `ort` ENABLE KEYS;
+ALTER TABLE `orte` ENABLE KEYS;
 UNLOCK TABLES;
-SELECT "Data for ort has been imported";
+SELECT "Data for orte has been imported";
 COMMIT;
 
 START TRANSACTION;
@@ -62,15 +62,15 @@ START TRANSACTION;
   SELECT "ort collumn has been created for lernende table";
 
   UPDATE `lernende`
-    SET `lernende`.`ort_id` = `ort`.`id`
+    SET `lernende`.`ort_id` = `orte`.`id`
     WHERE
-    `lernende`.`plz` LIKE CONCAT('%', `ort`.`plz` ,'%') AND
-    `lernende`.`ort` LIKE CONCAT('%', `ort`.`ort` ,'%');
+    `lernende`.`plz` LIKE CONCAT('%', `orte`.`plz` ,'%') AND
+    `lernende`.`ort` LIKE CONCAT('%', `orte`.`ort` ,'%');
   SELECT "ort_id has been set in lernende table";
 
   ALTER TABLE `lernende`
     ADD FOREIGN KEY (`lernende_ort_id`)
-    REFERENCES `ort`(`id`);
+    REFERENCES `orte`(`id`);
 
   SELECT "lernende_ort_id foreign key has been established";
 UNLOCK TABLES;
@@ -83,15 +83,15 @@ START TRANSACTION;
   SELECT "ort collumn has been created for lehrbetriebe table";
 
   UPDATE `lehrbetriebe`
-    SET `lehrbetriebe`.`ort_id` = `ort`.`id`
+    SET `lehrbetriebe`.`ort_id` = `orte`.`id`
     WHERE
-    `lehrbetriebe`.`plz` LIKE CONCAT('%', `ort`.`plz` ,'%') AND
-    `lehrbetriebe`.`ort` LIKE CONCAT('%', `ort`.`ort` ,'%');
+    `lehrbetriebe`.`plz` LIKE CONCAT('%', `orte`.`plz` ,'%') AND
+    `lehrbetriebe`.`ort` LIKE CONCAT('%', `orte`.`ort` ,'%');
   SELECT "ort_id has been set in lehrbetriebe table";
 
   ALTER TABLE `lehrbetriebe`
     ADD FOREIGN KEY (`lernende_ort_id`)
-    REFERENCES `ort`(`id`);
+    REFERENCES `orte`(`id`);
 
   SELECT "lehrbetriebe_ort_id foreign key has been established";
   UNLOCK TABLES;

@@ -58,17 +58,17 @@ CREATE PROCEDURE archiviere_klasse(
         NT.`erf_note`     AS note_erf,
         NT.`knw_note`     AS note_knw
       FROM schoolinfo_neu.lernende AS LD
-        LEFT JOIN schoolinfo_neu.ort AS LT
+        LEFT JOIN schoolinfo_neu.orte AS LT
           ON LD.ort_id = LT.id
         LEFT JOIN schoolinfo_neu.klasse AS KL
           ON LD.klasse_id = KL.id
         LEFT JOIN schoolinfo_neu.lehrbetriebe AS BB
           ON LD.lehrbetrieb_id = BB.id
-        LEFT JOIN schoolinfo_neu.ort AS BT
+        LEFT JOIN schoolinfo_neu.orte AS BT
           ON BB.ort_id = BT.id
         RIGHT OUTER JOIN schoolinfo_neu.note AS NT
           ON NT.lernende_id = LD.id
-        LEFT JOIN schoolinfo_neu.ict_module AS MD
+        LEFT JOIN schoolinfo_neu.module AS MD
           ON NT.ict - modul_id = MD.id
     WHERE LD.klasse_id = this_klasse_id;
 
