@@ -7,9 +7,6 @@ CREATE PROCEDURE sp_migration_starten
     USE `schoolinfo_neu`;
     SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 
-    --
-    -- Table structure for table `klassen`
-    --
     START TRANSACTION;
     DROP TABLE IF EXISTS `klassen`;
     CREATE TABLE `klassen` (
@@ -28,9 +25,6 @@ CREATE PROCEDURE sp_migration_starten
     SELECT "Table klassen has been created";
     COMMIT;
 
-    --
-    -- Insert data for table `klassen`
-    --
     START TRANSACTION;
     LOCK TABLES `klassen` WRITE;
     ALTER TABLE `klassen`
@@ -48,9 +42,6 @@ CREATE PROCEDURE sp_migration_starten
     SELECT "Data for klassen has been imported";
     COMMIT;
 
-    --
-    -- Table structure for table `lehrbetriebe`
-    --
     START TRANSACTION;
     DROP TABLE IF EXISTS `lehrbetriebe`;
     CREATE TABLE `lehrbetriebe` (
@@ -69,9 +60,7 @@ CREATE PROCEDURE sp_migration_starten
       COLLATE = utf8_unicode_ci;
     SELECT "Table lehrbetriebe has been created";
     COMMIT;
-    --
-    -- Insert data for table `lehrbetriebe`
-    --
+
     START TRANSACTION;
     LOCK TABLES `lehrbetriebe` WRITE;
     ALTER TABLE `lehrbetriebe`
@@ -97,9 +86,6 @@ CREATE PROCEDURE sp_migration_starten
     SELECT "Data for lehrbetriebe has been imported";
     COMMIT;
 
-    --
-    -- Table structure for table `lernende`
-    --
     START TRANSACTION;
     DROP TABLE IF EXISTS `lernende`;
     CREATE TABLE `lernende` (
@@ -126,9 +112,6 @@ CREATE PROCEDURE sp_migration_starten
     SELECT "Table lernende has been created";
     COMMIT;
 
-    --
-    -- Dumping data for table `lernende`
-    --
     START TRANSACTION;
     LOCK TABLES `lernende` WRITE;
     ALTER TABLE `lernende`
@@ -160,9 +143,6 @@ CREATE PROCEDURE sp_migration_starten
     SELECT "Data for lernende has been imported";
     COMMIT;
 
-    --
-    -- Table structure for table `berechtigung_log`
-    --
     START TRANSACTION;
     DROP TABLE IF EXISTS `berechtigungen_log`;
     CREATE TABLE `berechtigungen_log` (
@@ -179,9 +159,6 @@ CREATE PROCEDURE sp_migration_starten
     SELECT "Table berechtigungen_log has been created";
     COMMIT;
 
-    --
-    -- Insert data for table `berechtigung_log`
-    --
     START TRANSACTION;
     LOCK TABLES `berechtigungen_log` WRITE;
     ALTER TABLE `berechtigungen_log`
@@ -202,9 +179,6 @@ CREATE PROCEDURE sp_migration_starten
     SELECT "Data for berechtigungen_log has been imported";
     COMMIT;
 
-    --
-    -- Table structure for table `modul`
-    --
     START TRANSACTION;
     DROP TABLE IF EXISTS `module`;
     CREATE TABLE `module` (
@@ -219,9 +193,6 @@ CREATE PROCEDURE sp_migration_starten
     SELECT "Table module has been created";
     COMMIT;
 
-    --
-    -- Insert data for table ict-module
-    --
     START TRANSACTION;
     LOCK TABLES `module` WRITE;
     ALTER TABLE `module`
@@ -242,9 +213,6 @@ CREATE PROCEDURE sp_migration_starten
     SELECT "Data for module has been imported";
     COMMIT;
 
-    --
-    -- Table structure for table `noten`
-    --
     START TRANSACTION;
     DROP TABLE IF EXISTS `noten`;
     CREATE TABLE `noten` (
@@ -263,9 +231,6 @@ CREATE PROCEDURE sp_migration_starten
     SELECT "Table noten has been created";
     COMMIT;
 
-    --
-    -- Insert data for table `noten`
-    --
     START TRANSACTION;
     LOCK TABLES `noten` WRITE;
     ALTER TABLE `noten`
@@ -294,9 +259,6 @@ CREATE PROCEDURE sp_migration_starten
     SELECT "Data noten has been imported";
     COMMIT;
 
-    --
-    -- Table structure for table `richtung`
-    --
     START TRANSACTION;
     DROP TABLE IF EXISTS `fachrichtungen`;
     CREATE TABLE `fachrichtungen` (
@@ -310,9 +272,6 @@ CREATE PROCEDURE sp_migration_starten
     SELECT "Table fachrichtungen has been created";
     COMMIT;
 
-    --
-    -- Insert data for table `richtung`
-    --
     START TRANSACTION;
     LOCK TABLES `fachrichtungen` WRITE;
     ALTER TABLE `fachrichtungen`
