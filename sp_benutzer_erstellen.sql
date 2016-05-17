@@ -8,6 +8,28 @@ CREATE PROCEDURE sp_benutzer_erstellen(
 )
   BEGIN
     START TRANSACTION;
+    IF (LENGTH(
+      this_user OR
+      this_host OR
+      this_pass OR
+      this_table OR
+      this_permission
+       ) > 50)
+      THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Eingabe zu lange';
+    ELSEIF (
+      this_user OR
+      this_host OR
+      this_pass OR
+      this_table OR
+      this_permission
+    REGEXP  '|^((?![;$<>{}\[\]]).)*$|')
+      THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Eingabe enthaelt unerlaubte Zeichen. Nur a-z A-Z 0-9 sind erlaubt';
+    END IF;
+
     DECLARE query1 VARCHAR(255);
     SET query1 = CONCAT('
           CREATE USER IF NOT EXISTS "', this_user, '"@"', this_host,

@@ -12,7 +12,7 @@ CREATE PROCEDURE sp_lernende_archivieren(
 
       nachname    VARCHAR(50)  NOT NULL,
       vorname     VARCHAR(50)  NOT NULL,
-      bm          BOOLEAN,
+      bm          TINYINT(1)   NOT NULL,
       strasse     VARCHAR(50)  NOT NULL,
       plz         VARCHAR(8)   NOT NULL,
       ort         VARCHAR(50)  NOT NULL,

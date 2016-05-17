@@ -103,13 +103,13 @@ CREATE PROCEDURE sp_migration_starten
     START TRANSACTION;
     DROP TABLE IF EXISTS `lernende`;
     CREATE TABLE `lernende` (
-      `id`              INT(10)    NOT NULL        AUTO_INCREMENT,
+      `id`              INT(10)       NOT NULL     AUTO_INCREMENT,
       `anrede`          VARCHAR(25)                DEFAULT NULL,
       `name`            VARCHAR(50)                DEFAULT NULL,
       `vorname`         VARCHAR(50)                DEFAULT NULL,
       `geschlecht`      VARCHAR(50)                DEFAULT NULL,
       `klasse_id`       INT(10)                    DEFAULT NULL,
-      `ist_bm`          TINYINT(1) NOT NULL,
+      `ist_bm`          TINYINT(1)    NOT NULL,
       `fachrichtung_id` INT(10)                    DEFAULT NULL,
       `lehrbetrieb_id`  INT(10)                    DEFAULT NULL,
       `strasse`         VARCHAR(50)                DEFAULT NULL,
