@@ -1,5 +1,5 @@
 DELIMITER //
-CREATE PROCEDURE archiviere_klasse(
+CREATE PROCEDURE sp_lernende_archivieren(
   IN this_klasse_id INT(10)
 )
   BEGIN
@@ -10,28 +10,28 @@ CREATE PROCEDURE archiviere_klasse(
     CREATE TABLE IF NOT EXISTS lernende_archiv (
       id          INT PRIMARY KEY       AUTO_INCREMENT,
 
-      nachname    VARCHAR(51)  NOT NULL,
+      nachname    VARCHAR(50)  NOT NULL,
       vorname     VARCHAR(50)  NOT NULL,
       bm          BOOLEAN,
-      strasse     VARCHAR(50),
-      plz         VARCHAR(8),
-      ort         VARCHAR(50),
+      strasse     VARCHAR(50)  NOT NULL,
+      plz         VARCHAR(8)   NOT NULL,
+      ort         VARCHAR(50)  NOT NULL,
 
       richtung    VARCHAR(30)  NOT NULL,
 
       klasse      VARCHAR(10)  NOT NULL,
 
       lehrbetrieb VARCHAR(100) NOT NULL,
-      lbstrasse   VARCHAR(50),
-      lbhausnr    VARCHAR(10),
-      lbplz       VARCHAR(8),
-      lbort       VARCHAR(50),
-      lbland      VARCHAR(15),
+      lbstrasse   VARCHAR(50)  NOT NULL,
+      lbhausnr    VARCHAR(8)   NOT NULL,
+      lbplz       VARCHAR(8)   NOT NULL,
+      lbort       VARCHAR(50)  NOT NULL,
+      lbland      VARCHAR(2)   NOT NULL,
 
-      modulname   VARCHAR(30)  NOT NULL,
+      modulname   VARCHAR(50)  NOT NULL,
 
-      note_erf    FLOAT,
-      note_knw    FLOAT,
+      note_erf    DOUBLE(15, 2)          DEFAULT NULL,
+      note_knw    DOUBLE(15, 2)          DEFAULT NULL,
 
       timestamp   DATETIME     NOT NULL DEFAULT current_timestamp
 
@@ -69,8 +69,16 @@ CREATE PROCEDURE archiviere_klasse(
         RIGHT OUTER JOIN schoolinfo_neu.note AS NT
           ON NT.lernende_id = LD.id
         LEFT JOIN schoolinfo_neu.module AS MD
-          ON NT.ict - modul_id = MD.id
-    WHERE LD.klasse_id = this_klasse_id;
+          ON NT.modul_id = MD.id
+      WHERE LD.klasse_id = this_klasse_id;
 
-END //
+    DELETE t1 FROM schoolinfo_neu.noten t1
+      INNER JOIN schoolinfo_neu.lernende t2 ON (t1.lernende_id = t2.id)
+      INNER JOIN schoolinfo_neu.klasse t3 ON (t2.klasse_id = t3.id)
+    WHERE t3.id = this_klasse_id;
+
+    DELETE FROM schoolinfo_neu.lernende AS LD
+      WHERE LD.klasse_id = this_klasse_id;
+
+  END //
 DELIMITER ;

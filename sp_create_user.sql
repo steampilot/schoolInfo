@@ -1,5 +1,5 @@
 DELIMITER //
-CREATE PROCEDURE createUser(
+CREATE PROCEDURE sp_benutzer_erstellen(
   IN this_user       VARCHAR(50),
   IN this_host       VARCHAR(50),
   IN this_pass       VARCHAR(50),
@@ -19,7 +19,7 @@ CREATE PROCEDURE createUser(
 
     SELECT CONCAT(' User ', this_user, ' at ', this_host, ' has been created.');
 
-    INSERT INTO `schoolinfo_neu`.`berechtigung_log`
+    INSERT INTO `schoolinfo_neu`.`berechtigungen_log`
     (`benutzer`, `grund`, `berechtigung`,`tabelle`)
     VALUES (CONCAT(this_user, "@", this_host), "CREATE", "NONE", "NONE");
     COMMIT;
@@ -35,7 +35,7 @@ CREATE PROCEDURE createUser(
     SELECT CONCAT(' User ', this_user, ' at ', this_host,
                   ' has been granted ',this_permission,
                   ' permisson on table ',this_table,'.');
-    INSERT INTO `schoolinfo_neu`.`berechtigung_log`
+    INSERT INTO `schoolinfo_neu`.`berechtigungen_log`
     (`benutzer`, `grund`, `berechtigung`, `tabelle`)
     VALUES (CONCAT(this_user, "@", this_host), "Granted permission", this_permission, this_table);
     COMMIT;
